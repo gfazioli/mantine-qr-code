@@ -1,0 +1,47 @@
+{
+  "name": "@gfazioli/mantine-led",
+  "version": "0.9.0",
+  "description": "A highly customizable LED indicator component for React applications built with Mantine. Provides visual feedback for status indicators with support for colors, sizes, animations, and controlled states.",
+  "homepage": "https://gfazioli.github.io/mantine-led/",
+  "packageManager": "yarn@4.0.1",
+  "license": "MIT",
+  "author": "Giovambattista Fazioli <giovambattista.fazioli@gmail.com>",
+  "keywords": [
+    "component",
+    "extension",
+    "led",
+    "library",
+    "mantine",
+    "nextjs",
+    "react",
+    "react-component",
+    "reactjs",
+    "typescript",
+    "ui"
+  ],
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.mjs",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/esm/index.mjs"
+      },
+      "require": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/cjs/index.cjs"
+      }
+    },
+    "./styles.css": "./dist/styles.css",
+    "./styles.layer.css": "./dist/styles.layer.css"
+  },
+  "repository": "https://github.com/gfazioli/mantine-led.git",
+  "peerDependencies": {
+    "@mantine/core": ">=7.0.0",
+    "@mantine/hooks": ">=7.0.0",
+    "react": "^18.x || ^19.x",
+    "react-dom": "^18.x || ^19.x"
+  },
+  "bugs": "https://github.com/gfazioli/mantine-led/issues"
+}

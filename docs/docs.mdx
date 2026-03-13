@@ -1,0 +1,78 @@
+import { InstallScript } from './components/InstallScript/InstallScript';
+import * as demos from './demos';
+
+## Installation
+
+<InstallScript packages="@gfazioli/mantine-led" />
+
+After installation import package styles at the root of your application:
+
+```tsx
+import '@gfazioli/mantine-led/styles.css';
+```
+
+You can import styles within a layer `@layer mantine-led` by importing `@gfazioli/mantine-led/styles.layer.css` file.
+
+```tsx
+import '@gfazioli/mantine-led/styles.layer.css';
+```
+
+## Usage
+
+Explore all available props and see the component in action:
+
+<Demo data={demos.configurator} />
+
+## Controlled
+
+The Led component is fully controlled through the `value` prop. Here's an example of controlling the LED state:
+
+<Demo data={demos.controlled} />
+
+## Colors
+
+The Led component supports all Mantine theme colors. Use the `color` prop to set the LED color:
+
+<Demo data={demos.colors} />
+
+## Animations
+
+Add visual feedback with built-in animations. The component supports multiple animation types:
+
+- **pulse**: Smooth pulsing effect (default)
+- **flash**: Quick flashing
+- **breathe**: Slow breathing effect
+- **blink**: Regular blinking
+- **glow**: Glowing effect with increased intensity
+
+<Demo data={demos.animations} />
+
+## Labels
+
+Add descriptive labels to your LED indicators with full customization support:
+
+<Demo data={demos.labels} />
+
+The `label` prop accepts any React node, allowing you to use custom components like badges, icons, or formatted text. Use `labelPosition` to control whether the label appears on the left or right side of the LED.
+
+## Styles API
+
+`Led` supports [Styles API](https://mantine.dev/styles/styles-api/), you can add styles to any inner element of the component with `classNames` prop. Follow [Styles API](https://mantine.dev/styles/styles-api/) documentation to learn more.
+
+You can customize the appearance of the `Led` component using the Styles API. This allows you to modify styles for various parts of the component, such as the root, led, and label.
+
+<Demo data={demos.stylesApi} />
+
+## Use Cases
+
+### System Status Panel
+
+Monitor multiple system components with organized LED indicators:
+
+<Demo data={demos.statusPanel} />
+
+### DEFCON Alert System
+
+A fun example showing how to build a DEFCON (Defense Readiness Condition) alert system with animated LEDs:
+
+<Demo data={demos.defcon} />

@@ -1,8 +1,8 @@
-export { animations } from './Led.demo.animations';
-export { colors } from './Led.demo.colors';
-export { configurator } from './Led.demo.configurator';
-export { controlled } from './Led.demo.controlled';
-export { defcon } from './Led.demo.defcon';
-export { labels } from './Led.demo.labels';
-export { statusPanel } from './Led.demo.statusPanel';
-export { stylesApi } from './Led.demo.stylesApi';
+export { animations } from './QRCode.demo.animations';
+export { colors } from './QRCode.demo.colors';
+export { configurator } from './QRCode.demo.configurator';
+export { controlled } from './QRCode.demo.controlled';
+export { defcon } from './QRCode.demo.defcon';
+export { labels } from './QRCode.demo.labels';
+export { statusPanel } from './QRCode.demo.statusPanel';
+export { stylesApi } from './QRCode.demo.stylesApi';

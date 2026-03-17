@@ -1,2 +1,2 @@
-export { Led } from './Led';
-export type { LedBaseProps, LedCssVariables, LedFactory } from './Led';
+export { QRCode } from './QRCode';
+export type { QRCodeBaseProps, QRCodeCssVariables, QRCodeFactory } from './QRCode';

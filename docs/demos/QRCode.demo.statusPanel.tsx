@@ -1,31 +1,31 @@
-import { Led } from '@gfazioli/mantine-led';
+import { QRCode } from '@gfazioli/mantine-qr-code';
 import { Paper, SimpleGrid, Stack, Text, Title } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
 
 const code = `
 import { Group, Paper, SimpleGrid, Stack, Text, Title } from '@mantine/core';
-import { Led } from '@gfazioli/mantine-led';
+import { QRCode } from '@gfazioli/mantine-qr-code';
 
 function Demo() {
   return (
     <Paper p="xl" withBorder>
       <Stack gap="lg">
         <Title order={3}>System Status Panel</Title>
-        
+
         <SimpleGrid cols={2}>
           <Stack gap="md">
             <Text fw={500} size="sm">Network</Text>
             <Stack gap="xs">
-              <Led value label="Internet" color="green" labelPosition="left" />
-              <Led value label="LAN" color="green" labelPosition="left" />
-              <Led value={false} label="VPN" color="gray" labelPosition="left" />
+              <QRCode value label="Internet" color="green" labelPosition="left" />
+              <QRCode value label="LAN" color="green" labelPosition="left" />
+              <QRCode value={false} label="VPN" color="gray" labelPosition="left" />
             </Stack>
           </Stack>
 
           <Stack gap="md">
             <Text fw={500} size="sm">Services</Text>
             <Stack gap="xs">
-              <Led
+              <QRCode
                 value
                 label="Database"
                 color="green"
@@ -33,17 +33,17 @@ function Demo() {
                 animate
                 animationType="pulse"
               />
-              <Led value label="API Server" color="green" labelPosition="left" />
-              <Led value label="Cache" color="yellow" labelPosition="left" />
+              <QRCode value label="API Server" color="green" labelPosition="left" />
+              <QRCode value label="Cache" color="yellow" labelPosition="left" />
             </Stack>
           </Stack>
 
           <Stack gap="md">
             <Text fw={500} size="sm">Resources</Text>
             <Stack gap="xs">
-              <Led value label="CPU Load" color="green" labelPosition="left" />
-              <Led value label="Memory" color="yellow" labelPosition="left" />
-              <Led
+              <QRCode value label="CPU Load" color="green" labelPosition="left" />
+              <QRCode value label="Memory" color="yellow" labelPosition="left" />
+              <QRCode
                 value
                 label="Disk Space"
                 color="red"
@@ -57,9 +57,9 @@ function Demo() {
           <Stack gap="md">
             <Text fw={500} size="sm">Security</Text>
             <Stack gap="xs">
-              <Led value label="Firewall" color="green" labelPosition="left" />
-              <Led value label="SSL Cert" color="green" labelPosition="left" />
-              <Led value label="Auth Service" color="green" labelPosition="left" />
+              <QRCode value label="Firewall" color="green" labelPosition="left" />
+              <QRCode value label="SSL Cert" color="green" labelPosition="left" />
+              <QRCode value label="Auth Service" color="green" labelPosition="left" />
             </Stack>
           </Stack>
         </SimpleGrid>
@@ -80,9 +80,9 @@ function Demo() {
             <Text fw={800}>Network</Text>
             <Paper withBorder p="md">
               <Stack gap="xs">
-                <Led label="Internet" color="green" labelPosition="left" justify="space-between" />
-                <Led label="LAN" color="green" labelPosition="left" justify="space-between" />
-                <Led
+                <QRCode label="Internet" color="green" labelPosition="left" justify="space-between" />
+                <QRCode label="LAN" color="green" labelPosition="left" justify="space-between" />
+                <QRCode
                   value={false}
                   label="VPN"
                   color="gray"
@@ -97,7 +97,7 @@ function Demo() {
             <Text fw={800}>Services</Text>
             <Paper withBorder p="md">
               <Stack gap="xs">
-                <Led
+                <QRCode
                   value
                   label="Database"
                   color="green"
@@ -106,13 +106,13 @@ function Demo() {
                   animationType="blink"
                   justify="space-between"
                 />
-                <Led
+                <QRCode
                   label="API Server"
                   color="green"
                   labelPosition="left"
                   justify="space-between"
                 />
-                <Led label="Cache" color="yellow" labelPosition="left" justify="space-between" />
+                <QRCode label="Cache" color="yellow" labelPosition="left" justify="space-between" />
               </Stack>
             </Paper>
           </Stack>
@@ -121,7 +121,7 @@ function Demo() {
             <Text fw={800}>Resources</Text>
             <Paper withBorder p="md">
               <Stack gap="xs">
-                <Led
+                <QRCode
                   label="CPU Load"
                   color="green"
                   labelPosition="left"
@@ -129,8 +129,8 @@ function Demo() {
                   animate
                   animationType="glow"
                 />
-                <Led label="Memory" color="yellow" labelPosition="left" justify="space-between" />
-                <Led
+                <QRCode label="Memory" color="yellow" labelPosition="left" justify="space-between" />
+                <QRCode
                   value
                   label="Disk Space"
                   color="red"
@@ -147,15 +147,15 @@ function Demo() {
             <Text fw={800}>Security</Text>
             <Paper withBorder p="md">
               <Stack gap="xs">
-                <Led label="Firewall" color="green" labelPosition="left" justify="space-between" />
-                <Led
+                <QRCode label="Firewall" color="green" labelPosition="left" justify="space-between" />
+                <QRCode
                   label="SSL Cert"
                   color="green"
                   labelPosition="left"
                   justify="space-between"
                   value={false}
                 />
-                <Led
+                <QRCode
                   label="Auth Service"
                   color="green"
                   labelPosition="left"

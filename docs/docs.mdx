@@ -3,18 +3,18 @@ import * as demos from './demos';
 
 ## Installation
 
-<InstallScript packages="@gfazioli/mantine-led" />
+<InstallScript packages="@gfazioli/mantine-qr-code" />
 
 After installation import package styles at the root of your application:
 
 ```tsx
-import '@gfazioli/mantine-led/styles.css';
+import '@gfazioli/mantine-qr-code/styles.css';
 ```
 
-You can import styles within a layer `@layer mantine-led` by importing `@gfazioli/mantine-led/styles.layer.css` file.
+You can import styles within a layer `@layer mantine-qr-code` by importing `@gfazioli/mantine-qr-code/styles.layer.css` file.
 
 ```tsx
-import '@gfazioli/mantine-led/styles.layer.css';
+import '@gfazioli/mantine-qr-code/styles.layer.css';
 ```
 
 ## Usage
@@ -25,13 +25,13 @@ Explore all available props and see the component in action:
 
 ## Controlled
 
-The Led component is fully controlled through the `value` prop. Here's an example of controlling the LED state:
+The QRCode component is fully controlled through the `value` prop. Here's an example of controlling the QRCode state:
 
 <Demo data={demos.controlled} />
 
 ## Colors
 
-The Led component supports all Mantine theme colors. Use the `color` prop to set the LED color:
+The QRCode component supports all Mantine theme colors. Use the `color` prop to set the QRCode color:
 
 <Demo data={demos.colors} />
 
@@ -49,17 +49,17 @@ Add visual feedback with built-in animations. The component supports multiple an
 
 ## Labels
 
-Add descriptive labels to your LED indicators with full customization support:
+Add descriptive labels to your QRCode indicators with full customization support:
 
 <Demo data={demos.labels} />
 
-The `label` prop accepts any React node, allowing you to use custom components like badges, icons, or formatted text. Use `labelPosition` to control whether the label appears on the left or right side of the LED.
+The `label` prop accepts any React node, allowing you to use custom components like badges, icons, or formatted text. Use `labelPosition` to control whether the label appears on the left or right side of the QRCode.
 
 ## Styles API
 
-`Led` supports [Styles API](https://mantine.dev/styles/styles-api/), you can add styles to any inner element of the component with `classNames` prop. Follow [Styles API](https://mantine.dev/styles/styles-api/) documentation to learn more.
+`QRCode` supports [Styles API](https://mantine.dev/styles/styles-api/), you can add styles to any inner element of the component with `classNames` prop. Follow [Styles API](https://mantine.dev/styles/styles-api/) documentation to learn more.
 
-You can customize the appearance of the `Led` component using the Styles API. This allows you to modify styles for various parts of the component, such as the root, led, and label.
+You can customize the appearance of the `QRCode` component using the Styles API. This allows you to modify styles for various parts of the component, such as the root, qrCode, and label.
 
 <Demo data={demos.stylesApi} />
 
@@ -67,12 +67,12 @@ You can customize the appearance of the `Led` component using the Styles API. Th
 
 ### System Status Panel
 
-Monitor multiple system components with organized LED indicators:
+Monitor multiple system components with organized QRCode indicators:
 
 <Demo data={demos.statusPanel} />
 
 ### DEFCON Alert System
 
-A fun example showing how to build a DEFCON (Defense Readiness Condition) alert system with animated LEDs:
+A fun example showing how to build a DEFCON (Defense Readiness Condition) alert system with animated QRCodes:
 
 <Demo data={demos.defcon} />

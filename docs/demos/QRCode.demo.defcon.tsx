@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Led } from '@gfazioli/mantine-led';
+import { QRCode } from '@gfazioli/mantine-qr-code';
 import { Button, Group, Paper, Stack, Text, Title } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
 
@@ -19,7 +19,7 @@ const DEFCON_LEVELS = [
 const code = `
 import { useState } from 'react';
 import { Button, Group, Paper, Stack, Text, Title } from '@mantine/core';
-import { Led } from '@gfazioli/mantine-led';
+import { QRCode } from '@gfazioli/mantine-qr-code';
 
 const DEFCON_LEVELS = [
   { level: 5, color: 'blue', label: 'DEFCON 5', description: 'Normal readiness' },
@@ -36,12 +36,12 @@ function Demo() {
     <Paper p="xl" withBorder>
       <Stack gap="lg">
         <Title order={3} ta="center">Defense Readiness Condition</Title>
-        
+
         <Stack gap="md">
           {DEFCON_LEVELS.map(({ level, color, label, description }) => (
             <Group key={level} justify="space-between">
               <Group gap="md">
-                <Led
+                <QRCode
                   value={currentLevel === level}
                   color={color}
                   size="lg"
@@ -95,7 +95,7 @@ function Demo() {
           {DEFCON_LEVELS.map(({ level, color, label, description }) => (
             <Group key={level} justify="space-between">
               <Group gap="md">
-                <Led
+                <QRCode
                   value={currentLevel === level}
                   color={color}
                   size="lg"

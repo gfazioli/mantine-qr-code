@@ -12,9 +12,9 @@ export default function HomePage() {
       <PageHeader data={PACKAGE_DATA} />
       <DocsTabs
         docgen={docgen}
-        componentsProps={['Led']}
-        componentsStyles={['Led']}
-        componentPrefix="Led"
+        componentsProps={['QRCode']}
+        componentsStyles={['QRCode']}
+        componentPrefix="QRCode"
         stylesApiData={STYLES_API_DATA}
       >
         <Docs />

@@ -1,26 +1,26 @@
-import { Led } from '@gfazioli/mantine-led';
+import { QRCode } from '@gfazioli/mantine-qr-code';
 import { Badge, Group, Stack } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
 
 const code = `
 import { Badge, Group, Stack } from '@mantine/core';
-import { Led } from '@gfazioli/mantine-led';
+import { QRCode } from '@gfazioli/mantine-qr-code';
 
 function Demo() {
   return (
     <Stack gap="lg">
       <Group>
-        <Led label="Power" />
-        <Led value={false} label="Standby" color="gray" />
+        <QRCode label="Power" />
+        <QRCode value={false} label="Standby" color="gray" />
       </Group>
 
       <Group>
-        <Led label="Online" labelPosition="left" color="green" />
-        <Led label="Active" labelPosition="right" color="blue" />
+        <QRCode label="Online" labelPosition="left" color="green" />
+        <QRCode label="Active" labelPosition="right" color="blue" />
       </Group>
 
       <Group>
-        <Led
+        <QRCode
           label={<Badge size="sm" variant="light">Custom Label</Badge>}
           color="violet"
         />
@@ -34,17 +34,17 @@ function Demo() {
   return (
     <Stack gap="lg">
       <Group>
-        <Led label="Power" />
-        <Led value={false} label="Standby" color="gray" />
+        <QRCode label="Power" />
+        <QRCode value={false} label="Standby" color="gray" />
       </Group>
 
       <Group>
-        <Led label="Online" labelPosition="left" color="green" />
-        <Led label="Active" labelPosition="right" color="blue" />
+        <QRCode label="Online" labelPosition="left" color="green" />
+        <QRCode label="Active" labelPosition="right" color="blue" />
       </Group>
 
       <Group>
-        <Led
+        <QRCode
           label={
             <Badge size="sm" variant="light">
               Custom Label

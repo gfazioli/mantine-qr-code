@@ -17,36 +17,36 @@ import {
   type MantineSize,
   type StyleProp,
 } from '@mantine/core';
-import classes from './Led.module.css';
+import classes from './QRCode.module.css';
 
-export type LedVariant = 'flat' | '3d';
+export type QRCodeVariant = 'flat' | '3d';
 
-export type LedAnimationType = 'pulse' | 'flash' | 'breathe' | 'blink' | 'glow' | 'none';
+export type QRCodeAnimationType = 'pulse' | 'flash' | 'breathe' | 'blink' | 'glow' | 'none';
 
-export type LedStylesNames = 'root' | 'led' | 'label' | 'light' | 'glow';
+export type QRCodeStylesNames = 'root' | 'qrCode' | 'label' | 'light' | 'glow';
 
-export type LedCssVariables = {
+export type QRCodeCssVariables = {
   root:
-    | '--led-size'
-    | '--led-radius'
-    | '--led-color'
-    | '--led-intensity'
-    | '--led-animation-duration'
-    | '--led-glow-size'
-    | '--led-justify-content';
+    | '--qr-code-size'
+    | '--qr-code-radius'
+    | '--qr-code-color'
+    | '--qr-code-intensity'
+    | '--qr-code-animation-duration'
+    | '--qr-code-glow-size'
+    | '--qr-code-justify-content';
 };
 
-export interface LedBaseProps {
-  /** LED color from theme */
+export interface QRCodeBaseProps {
+  /** QRCode color from theme */
   color?: MantineColor;
 
-  /** LED size */
+  /** QRCode size */
   size?: MantineSize | (string & {}) | number;
 
   /** Border radius */
   radius?: MantineRadius | (string & {}) | number;
 
-  /** Controls LED on/off state */
+  /** Controls QRCode on/off state */
   value?: boolean;
 
   /** Light intensity (0-100) */
@@ -56,7 +56,7 @@ export interface LedBaseProps {
   animate?: boolean;
 
   /** Animation type; one of 'pulse', 'flash', 'breathe', 'blink', 'glow', or 'none' */
-  animationType?: LedAnimationType;
+  animationType?: QRCodeAnimationType;
 
   /** Animation duration in seconds */
   animationDuration?: number;
@@ -71,18 +71,18 @@ export interface LedBaseProps {
   justify?: StyleProp<React.CSSProperties['justifyContent']>;
 }
 
-export interface LedProps extends BoxProps, LedBaseProps, StylesApiProps<LedFactory> {}
+export interface QRCodeProps extends BoxProps, QRCodeBaseProps, StylesApiProps<QRCodeFactory> {}
 
-export type LedFactory = PolymorphicFactory<{
-  props: LedProps;
+export type QRCodeFactory = PolymorphicFactory<{
+  props: QRCodeProps;
   defaultComponent: 'div';
   defaultRef: HTMLDivElement;
-  stylesNames: LedStylesNames;
-  variant: LedVariant;
-  vars: LedCssVariables;
+  stylesNames: QRCodeStylesNames;
+  variant: QRCodeVariant;
+  vars: QRCodeCssVariables;
 }>;
 
-const defaultProps: Partial<LedProps> = {
+const defaultProps: Partial<QRCodeProps> = {
   color: 'green',
   size: 'sm',
   radius: 'xl',
@@ -95,25 +95,25 @@ const defaultProps: Partial<LedProps> = {
   labelPosition: 'right',
 };
 
-const varsResolver = createVarsResolver<LedFactory>(
+const varsResolver = createVarsResolver<QRCodeFactory>(
   (theme, { size, radius, color, intensity, animationDuration, justify }) => {
     return {
       root: {
-        '--led-size': getSize(size, 'led-size'),
-        '--led-radius': radius === undefined ? undefined : getRadius(radius),
-        '--led-color': getThemeColor(color, theme),
-        '--led-intensity': intensity !== undefined ? `${intensity / 100}` : '0.8',
-        '--led-animation-duration':
+        '--qr-code-size': getSize(size, 'qr-code-size'),
+        '--qr-code-radius': radius === undefined ? undefined : getRadius(radius),
+        '--qr-code-color': getThemeColor(color, theme),
+        '--qr-code-intensity': intensity !== undefined ? `${intensity / 100}` : '0.8',
+        '--qr-code-animation-duration':
           animationDuration !== undefined ? `${animationDuration}s` : '1.5s',
-        '--led-glow-size': `calc(var(--led-size) * 0.6)`,
-        '--led-justify-content': String(justify) || 'center',
+        '--qr-code-glow-size': `calc(var(--qr-code-size) * 0.6)`,
+        '--qr-code-justify-content': String(justify) || 'center',
       },
     };
   }
 );
 
-export const Led = polymorphicFactory<LedFactory>((_props, ref) => {
-  const props = useProps('Led', defaultProps, _props);
+export const QRCode = polymorphicFactory<QRCodeFactory>((_props, ref) => {
+  const props = useProps('QRCode', defaultProps, _props);
   const {
     size,
     radius,
@@ -138,8 +138,8 @@ export const Led = polymorphicFactory<LedFactory>((_props, ref) => {
     ...others
   } = props;
 
-  const getStyles = useStyles<LedFactory>({
-    name: 'Led',
+  const getStyles = useStyles<QRCodeFactory>({
+    name: 'QRCode',
     props,
     classes,
     className,
@@ -163,7 +163,7 @@ export const Led = polymorphicFactory<LedFactory>((_props, ref) => {
       }}
     >
       <Box
-        {...getStyles('led')}
+        {...getStyles('qrCode')}
         variant={variant}
         data-value={value || undefined}
         data-animate={animate && value ? animationType : undefined}
@@ -176,5 +176,5 @@ export const Led = polymorphicFactory<LedFactory>((_props, ref) => {
   );
 });
 
-Led.classes = classes;
-Led.displayName = 'Led';
+QRCode.classes = classes;
+QRCode.displayName = 'QRCode';

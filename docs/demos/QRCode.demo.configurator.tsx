@@ -1,19 +1,19 @@
-import { Led } from '@gfazioli/mantine-led';
+import { QRCode } from '@gfazioli/mantine-qr-code';
 import { MantineDemo } from '@mantinex/demo';
 
 const code = `
-import { Led } from '@gfazioli/mantine-led';
+import { QRCode } from '@gfazioli/mantine-qr-code';
 
 function Demo() {
   return (
-    <Led{{props}}/>
+    <QRCode{{props}}/>
   );
 }
 `;
 
 export const configurator: MantineDemo = {
   type: 'configurator',
-  component: (props) => <Led {...props} />,
+  component: (props) => <QRCode {...props} />,
   code,
   centered: true,
   controls: [

@@ -1,5 +1,5 @@
-import { LedStylesApi } from './Led.styles-api';
+import { QRCodeStylesApi } from './QRCode.styles-api';
 
 export const STYLES_API_DATA = {
-  Led: LedStylesApi,
+  QRCode: QRCodeStylesApi,
 };

@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@gfazioli/mantine-led": "workspace:*",
+    "@gfazioli/mantine-qr-code": "workspace:*",
     "@mantine/code-highlight": "8.3.16",
     "@mantine/core": "8.3.16",
     "@mantine/hooks": "8.3.16",

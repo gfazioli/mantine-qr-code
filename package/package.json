@@ -1,6 +1,6 @@
 {
   "name": "@gfazioli/mantine-qr-code",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "A highly customizable QR Code component for React applications built with Mantine.",
   "homepage": "https://gfazioli.github.io/mantine-qr-code/",
   "packageManager": "yarn@4.0.1",

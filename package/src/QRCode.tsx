@@ -1,147 +1,157 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Box,
-  BoxProps,
   createVarsResolver,
-  getFontSize,
   getRadius,
   getSize,
   getThemeColor,
-  PolymorphicFactory,
   polymorphicFactory,
-  StylesApiProps,
   useProps,
   useStyles,
+  type BoxProps,
+  type ElementProps,
   type MantineColor,
   type MantineRadius,
   type MantineSize,
-  type StyleProp,
+  type PolymorphicFactory,
+  type StylesApiProps,
 } from '@mantine/core';
+import { dotPath, type DotStyle } from './lib/dot-shapes';
+import { finderPatternPaths, type CornerStyle } from './lib/finder-shapes';
+import { generateQRMatrix, isFinderPattern } from './lib/qr-encoder';
+import { getExcavationMask } from './lib/utils';
 import classes from './QRCode.module.css';
 
-export type QRCodeVariant = 'flat' | '3d';
+export type QRCodeErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
+export type QRCodeDotStyle = DotStyle;
+export type QRCodeCornerStyle = CornerStyle;
+export type QRCodeStylesNames =
+  | 'root'
+  | 'svg'
+  | 'background'
+  | 'modules'
+  | 'finderPattern'
+  | 'finderOuter'
+  | 'finderInner'
+  | 'image';
 
-export type QRCodeAnimationType = 'pulse' | 'flash' | 'breathe' | 'blink' | 'glow' | 'none';
-
-export type QRCodeStylesNames = 'root' | 'qrCode' | 'label' | 'light' | 'glow';
-
-export type QRCodeCssVariables = {
-  root:
-    | '--qr-code-size'
-    | '--qr-code-radius'
-    | '--qr-code-color'
-    | '--qr-code-intensity'
-    | '--qr-code-animation-duration'
-    | '--qr-code-glow-size'
-    | '--qr-code-justify-content';
-};
-
-export interface QRCodeBaseProps {
-  /** QRCode color from theme */
-  color?: MantineColor;
-
-  /** QRCode size */
-  size?: MantineSize | (string & {}) | number;
-
-  /** Border radius */
-  radius?: MantineRadius | (string & {}) | number;
-
-  /** Controls QRCode on/off state */
-  value?: boolean;
-
-  /** Light intensity (0-100) */
-  intensity?: number;
-
-  /** Enable animation */
-  animate?: boolean;
-
-  /** Animation type; one of 'pulse', 'flash', 'breathe', 'blink', 'glow', or 'none' */
-  animationType?: QRCodeAnimationType;
-
-  /** Animation duration in seconds */
-  animationDuration?: number;
-
-  /** Label content */
-  label?: React.ReactNode;
-
-  /** Label position */
-  labelPosition?: 'left' | 'right';
-
-  /** `justify-content` CSS property */
-  justify?: StyleProp<React.CSSProperties['justifyContent']>;
+export interface QRCodeCssVariables {
+  root: '--qr-code-size' | '--qr-code-radius' | '--qr-code-color' | '--qr-code-bg-color';
 }
 
-export interface QRCodeProps extends BoxProps, QRCodeBaseProps, StylesApiProps<QRCodeFactory> {}
+export interface QRCodeBaseProps {
+  /** Data to encode in the QR code (URL, text, etc.) */
+  value: string;
+
+  /** QR code size */
+  size?: MantineSize | (string & {}) | number;
+
+  /** Border radius of the outer container */
+  radius?: MantineRadius | (string & {}) | number;
+
+  /** Module (foreground) color from Mantine theme */
+  color?: MantineColor;
+
+  /** Background color from Mantine theme, or 'transparent' */
+  bgColor?: MantineColor | 'transparent';
+
+  /** Error correction level: L (7%), M (15%), Q (25%), H (30%) */
+  errorCorrectionLevel?: QRCodeErrorCorrectionLevel;
+
+  /** Quiet zone modules around the QR code */
+  quietZone?: number;
+
+  /** Data module style */
+  dotStyle?: QRCodeDotStyle;
+
+  /** Finder pattern (corner) style */
+  cornerStyle?: QRCodeCornerStyle;
+
+  /** URL of an image/logo to overlay at center */
+  image?: string;
+
+  /** Image size relative to QR code (0-1) */
+  imageSize?: number;
+
+  /** Border radius of the center image */
+  imageRadius?: MantineRadius | (string & {}) | number;
+
+  /** Padding around the image in modules */
+  imagePadding?: number;
+
+  /** Remove QR modules behind the image */
+  imageExcavate?: boolean;
+}
 
 export type QRCodeFactory = PolymorphicFactory<{
-  props: QRCodeProps;
+  props: QRCodeBaseProps & BoxProps & StylesApiProps<QRCodeFactory> & ElementProps<'div', 'color'>;
   defaultComponent: 'div';
   defaultRef: HTMLDivElement;
   stylesNames: QRCodeStylesNames;
-  variant: QRCodeVariant;
   vars: QRCodeCssVariables;
 }>;
 
-const defaultProps: Partial<QRCodeProps> = {
-  color: 'green',
-  size: 'sm',
-  radius: 'xl',
-  value: true,
-  variant: 'flat',
-  intensity: 80,
-  animate: false,
-  animationType: 'none',
-  animationDuration: 1.5,
-  labelPosition: 'right',
+const defaultProps: Partial<QRCodeBaseProps> = {
+  size: 'md',
+  color: 'dark',
+  bgColor: 'white',
+  errorCorrectionLevel: 'M',
+  quietZone: 1,
+  dotStyle: 'square',
+  cornerStyle: 'square',
+  imageSize: 0.2,
+  imagePadding: 1,
+  imageExcavate: true,
 };
 
-const varsResolver = createVarsResolver<QRCodeFactory>(
-  (theme, { size, radius, color, intensity, animationDuration, justify }) => {
-    return {
-      root: {
-        '--qr-code-size': getSize(size, 'qr-code-size'),
-        '--qr-code-radius': radius === undefined ? undefined : getRadius(radius),
-        '--qr-code-color': getThemeColor(color, theme),
-        '--qr-code-intensity': intensity !== undefined ? `${intensity / 100}` : '0.8',
-        '--qr-code-animation-duration':
-          animationDuration !== undefined ? `${animationDuration}s` : '1.5s',
-        '--qr-code-glow-size': `calc(var(--qr-code-size) * 0.6)`,
-        '--qr-code-justify-content': String(justify) || 'center',
-      },
-    };
-  }
-);
+const varsResolver = createVarsResolver<QRCodeFactory>((theme, props) => {
+  const { size, radius, color, bgColor } = props;
+
+  return {
+    root: {
+      '--qr-code-size': getSize(size, 'qr-code-size'),
+      '--qr-code-radius': radius !== undefined ? getRadius(radius) : undefined,
+      '--qr-code-color': color ? getThemeColor(color, theme) : undefined,
+      '--qr-code-bg-color':
+        bgColor === 'transparent'
+          ? 'transparent'
+          : bgColor
+            ? getThemeColor(bgColor, theme)
+            : undefined,
+    },
+  };
+});
 
 export const QRCode = polymorphicFactory<QRCodeFactory>((_props, ref) => {
   const props = useProps('QRCode', defaultProps, _props);
   const {
-    size,
-    radius,
-    color,
-    intensity,
-    animationDuration,
-    value,
-    animate,
-    animationType,
-    variant,
-    label,
-    labelPosition,
-    justify,
-
     classNames,
+    className,
     style,
     styles,
     unstyled,
     vars,
-    className,
-    mod,
+    value,
+    size,
+    radius,
+    color,
+    bgColor,
+    errorCorrectionLevel,
+    quietZone,
+    dotStyle,
+    cornerStyle,
+    image,
+    imageSize,
+    imageRadius,
+    imagePadding,
+    imageExcavate,
     ...others
   } = props;
 
   const getStyles = useStyles<QRCodeFactory>({
     name: 'QRCode',
-    props,
     classes,
+    props,
     className,
     style,
     classNames,
@@ -151,27 +161,128 @@ export const QRCode = polymorphicFactory<QRCodeFactory>((_props, ref) => {
     varsResolver,
   });
 
-  return (
-    <Box
-      ref={ref}
-      {...getStyles('root')}
-      {...others}
-      mod={[{ 'label-position': labelPosition }, mod]}
-      __vars={{
-        '--label-fz': getFontSize(size),
-        '--label-lh': getSize(size, 'label-lh'),
-      }}
-    >
-      <Box
-        {...getStyles('qrCode')}
-        variant={variant}
-        data-value={value || undefined}
-        data-animate={animate && value ? animationType : undefined}
-      >
-        <Box {...getStyles('glow')} />
-        <Box {...getStyles('light')} />
+  const qrData = useMemo(() => {
+    if (!value) {
+      return null;
+    }
+    try {
+      return generateQRMatrix(value, errorCorrectionLevel);
+    } catch {
+      return null;
+    }
+  }, [value, errorCorrectionLevel]);
+
+  const svgContent = useMemo(() => {
+    if (!qrData) {
+      return null;
+    }
+
+    const { modules, size: matrixSize } = qrData;
+    const qz = quietZone!;
+    const totalModules = matrixSize + qz * 2;
+    const cellSize = 1;
+    const viewBoxSize = totalModules * cellSize;
+
+    // Excavation mask for image overlay
+    let excavationMask: boolean[][] | null = null;
+    if (image && imageExcavate) {
+      const imgModules = Math.ceil(matrixSize * imageSize!);
+      excavationMask = getExcavationMask(matrixSize, qz, imgModules, imagePadding!);
+    }
+
+    // Build data modules path (excluding finder patterns and excavated area)
+    let modulesPath = '';
+    for (let row = 0; row < matrixSize; row++) {
+      for (let col = 0; col < matrixSize; col++) {
+        if (!modules[row][col]) {
+          continue;
+        }
+        if (isFinderPattern(row, col, matrixSize)) {
+          continue;
+        }
+        if (excavationMask && excavationMask[row][col]) {
+          continue;
+        }
+        const x = (col + qz) * cellSize;
+        const y = (row + qz) * cellSize;
+        modulesPath += dotPath(x, y, cellSize, dotStyle!);
+      }
+    }
+
+    // Finder patterns at three corners
+    const finderPositions = [
+      { row: 0, col: 0 },
+      { row: 0, col: matrixSize - 7 },
+      { row: matrixSize - 7, col: 0 },
+    ];
+
+    const finders = finderPositions.map((pos) => {
+      const fx = (pos.col + qz) * cellSize;
+      const fy = (pos.row + qz) * cellSize;
+      return finderPatternPaths(fx, fy, cellSize, cornerStyle!);
+    });
+
+    // Image overlay
+    let imageElement = null;
+    if (image) {
+      const imgPixelSize = matrixSize * imageSize! * cellSize;
+      const imgX = (viewBoxSize - imgPixelSize) / 2;
+      const imgY = (viewBoxSize - imgPixelSize) / 2;
+      const imgRad = imageRadius !== undefined ? getRadius(imageRadius) : '0';
+      imageElement = { x: imgX, y: imgY, size: imgPixelSize, radius: imgRad };
+    }
+
+    return { viewBoxSize, modulesPath, finders, imageElement };
+  }, [
+    qrData,
+    quietZone,
+    dotStyle,
+    cornerStyle,
+    image,
+    imageSize,
+    imageExcavate,
+    imagePadding,
+    imageRadius,
+  ]);
+
+  if (!svgContent) {
+    return (
+      <Box ref={ref} {...getStyles('root')} {...others}>
+        <svg {...getStyles('svg')} />
       </Box>
-      {label && <Box {...getStyles('label')}>{label}</Box>}
+    );
+  }
+
+  const { viewBoxSize, modulesPath, finders, imageElement } = svgContent;
+
+  return (
+    <Box ref={ref} {...getStyles('root')} {...others}>
+      <svg
+        {...getStyles('svg')}
+        viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect {...getStyles('background')} x="0" y="0" width={viewBoxSize} height={viewBoxSize} />
+        {modulesPath && <path {...getStyles('modules')} d={modulesPath} fillRule="nonzero" />}
+        {finders.map((finder, i) => (
+          <g key={i} {...getStyles('finderPattern')}>
+            <path {...getStyles('finderOuter')} d={finder.outer} fillRule="evenodd" />
+            <path {...getStyles('finderInner')} d={finder.inner} />
+          </g>
+        ))}
+        {imageElement && (
+          <image
+            {...getStyles('image')}
+            href={image}
+            x={imageElement.x}
+            y={imageElement.y}
+            width={imageElement.size}
+            height={imageElement.size}
+            clipPath={`inset(0 round ${imageElement.radius})`}
+            preserveAspectRatio="xMidYMid slice"
+          />
+        )}
+      </svg>
     </Box>
   );
 });

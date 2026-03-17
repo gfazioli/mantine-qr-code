@@ -7,13 +7,13 @@ import { QRCode } from "@gfazioli/mantine-qr-code";
 
 function Demo() {
   return (
-    <QRCode{{props}} variant="3d" label="Example Label" size="xl" />
+    <QRCode{{props}} value="https://mantine.dev" size="xl" />
   );
 }
 `;
 
 function Demo(props: any) {
-  return <QRCode {...props} variant="3d" label="Example Label" size="xl" />;
+  return <QRCode {...props} value="https://mantine.dev" size="xl" />;
 }
 
 export const stylesApi: MantineDemo = {

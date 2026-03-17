@@ -1,63 +1,25 @@
 import React from 'react';
-import { Divider, Group, Paper, Stack, Text } from '@mantine/core';
-import { QRCode, type QRCodeProps } from './QRCode';
+import { Group, Paper, Stack, Text } from '@mantine/core';
+import { QRCode } from './QRCode';
 
 export default {
   title: 'Components/QRCode',
   args: {
+    value: 'https://mantine.dev',
     size: 'md',
-    radius: 'xl',
-    value: true,
-    variant: 'flat',
-    intensity: 80,
-    animate: false,
-    animationType: 'none',
-    animationDuration: 1.5,
+    color: 'dark',
+    bgColor: 'white',
+    dotStyle: 'square',
+    cornerStyle: 'square',
+    errorCorrectionLevel: 'M',
   },
   argTypes: {
-    label: {
-      control: 'text',
-    },
-    justify: {
-      control: 'select',
-      options: [
-        'flex-start',
-        'center',
-        'flex-end',
-        'space-between',
-        'space-around',
-        'space-evenly',
-      ],
-    },
-    labelPosition: {
-      control: 'select',
-      options: ['left', 'right'],
-    },
-    size: {
-      control: 'select',
-      options: ['xs', 'sm', 'md', 'lg', 'xl'],
-    },
-    radius: {
-      control: 'select',
-      options: ['xs', 'sm', 'md', 'lg', 'xl'],
-    },
-    color: {
-      control: 'color',
-    },
-    variant: {
-      control: 'select',
-      options: ['flat', '3d'],
-    },
-    intensity: {
-      control: { type: 'range', min: 0, max: 100, step: 10 },
-    },
-    animationType: {
-      control: 'select',
-      options: ['none', 'pulse', 'flash', 'breathe', 'blink', 'glow'],
-    },
-    animationDuration: {
-      control: { type: 'range', min: 0.5, max: 10, step: 0.5 },
-    },
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
+    dotStyle: { control: 'select', options: ['square', 'rounded', 'dots'] },
+    cornerStyle: { control: 'select', options: ['square', 'rounded', 'dots'] },
+    errorCorrectionLevel: { control: 'select', options: ['L', 'M', 'Q', 'H'] },
+    color: { control: 'color' },
+    bgColor: { control: 'color' },
   },
 };
 
@@ -66,74 +28,14 @@ export function Usage() {
     <Stack gap="xl" p="md">
       <Paper p="md" withBorder>
         <Text fw={500} mb="md">
-          Basic QRCode States
-        </Text>
-        <Group>
-          <Stack align="center">
-            <QRCode />
-            <Text size="xs">On</Text>
-          </Stack>
-          <Stack align="center">
-            <QRCode value={false} />
-            <Text size="xs">Off</Text>
-          </Stack>
-        </Group>
-      </Paper>
-
-      <Paper p="md" withBorder>
-        <Text fw={500} mb="md">
-          Variants
-        </Text>
-        <Group>
-          <Stack align="center">
-            <QRCode variant="flat" />
-            <Text size="xs">Flat</Text>
-          </Stack>
-          <Stack align="center">
-            <QRCode variant="3d" />
-            <Text size="xs">3D</Text>
-          </Stack>
-        </Group>
-      </Paper>
-
-      <Paper p="md" withBorder>
-        <Text fw={500} mb="md">
           Sizes
         </Text>
         <Group align="flex-end">
-          <Stack align="center">
-            <QRCode size="xs" />
-            <Text size="xs">XS</Text>
-          </Stack>
-          <Stack align="center">
-            <QRCode size="sm" />
-            <Text size="xs">SM</Text>
-          </Stack>
-          <Stack align="center">
-            <QRCode size="md" />
-            <Text size="xs">MD</Text>
-          </Stack>
-          <Stack align="center">
-            <QRCode size="lg" />
-            <Text size="xs">LG</Text>
-          </Stack>
-          <Stack align="center">
-            <QRCode size="xl" />
-            <Text size="xs">XL</Text>
-          </Stack>
-        </Group>
-      </Paper>
-
-      <Paper p="md" withBorder>
-        <Text fw={500} mb="md">
-          Colors
-        </Text>
-        <Group>
-          {['red', 'green', 'blue', 'yellow', 'orange', 'cyan', 'pink', 'violet'].map((color) => (
-            <Stack key={color} align="center">
-              <QRCode color={color} variant="3d" size="lg" />
-              <Text size="xs" tt="capitalize">
-                {color}
+          {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((s) => (
+            <Stack key={s} align="center">
+              <QRCode value="https://mantine.dev" size={s} />
+              <Text size="xs" tt="uppercase">
+                {s}
               </Text>
             </Stack>
           ))}
@@ -142,13 +44,15 @@ export function Usage() {
 
       <Paper p="md" withBorder>
         <Text fw={500} mb="md">
-          Intensity Levels (3D variant)
+          Dot Styles
         </Text>
         <Group>
-          {[20, 40, 60, 80, 100].map((intensity) => (
-            <Stack key={intensity} align="center">
-              <QRCode intensity={intensity} variant="3d" size="lg" />
-              <Text size="xs">{intensity}%</Text>
+          {(['square', 'rounded', 'dots'] as const).map((ds) => (
+            <Stack key={ds} align="center">
+              <QRCode value="https://mantine.dev" dotStyle={ds} size="lg" />
+              <Text size="xs" tt="capitalize">
+                {ds}
+              </Text>
             </Stack>
           ))}
         </Group>
@@ -156,93 +60,105 @@ export function Usage() {
 
       <Paper p="md" withBorder>
         <Text fw={500} mb="md">
-          Animations
+          Corner Styles
         </Text>
         <Group>
-          <Stack align="center">
-            <QRCode animate animationType="pulse" size="lg" />
-            <Text size="xs">Pulse</Text>
-          </Stack>
-          <Stack align="center">
-            <QRCode animate animationType="flash" size="lg" color="red" />
-            <Text size="xs">Flash</Text>
-          </Stack>
-          <Stack align="center">
-            <QRCode animate animationType="breathe" size="lg" color="blue" />
-            <Text size="xs">Breathe</Text>
-          </Stack>
-          <Stack align="center">
-            <QRCode animate animationType="blink" size="lg" color="yellow" />
-            <Text size="xs">Blink</Text>
-          </Stack>
-          <Stack align="center">
-            <QRCode animate animationType="glow" size="lg" color="cyan" />
-            <Text size="xs">Glow</Text>
-          </Stack>
+          {(['square', 'rounded', 'dots'] as const).map((cs) => (
+            <Stack key={cs} align="center">
+              <QRCode value="https://mantine.dev" cornerStyle={cs} size="lg" />
+              <Text size="xs" tt="capitalize">
+                {cs}
+              </Text>
+            </Stack>
+          ))}
         </Group>
       </Paper>
 
       <Paper p="md" withBorder>
         <Text fw={500} mb="md">
-          Animation Speed
+          Colors
         </Text>
         <Group>
-          <Stack align="center">
-            <QRCode animate animationType="pulse" animationDuration={0.5} size="lg" />
-            <Text size="xs">Fast (0.5s)</Text>
-          </Stack>
-          <Stack align="center">
-            <QRCode animate animationType="pulse" animationDuration={1.5} size="lg" />
-            <Text size="xs">Normal (1.5s)</Text>
-          </Stack>
-          <Stack align="center">
-            <QRCode animate animationType="pulse" animationDuration={3} size="lg" />
-            <Text size="xs">Slow (3s)</Text>
-          </Stack>
+          {['red', 'green', 'blue', 'yellow', 'orange', 'cyan', 'pink', 'violet'].map((c) => (
+            <Stack key={c} align="center">
+              <QRCode value="https://mantine.dev" color={c} />
+              <Text size="xs" tt="capitalize">
+                {c}
+              </Text>
+            </Stack>
+          ))}
         </Group>
       </Paper>
 
       <Paper p="md" withBorder>
         <Text fw={500} mb="md">
-          Combined Effects (3D + Animation + High Intensity)
+          Error Correction Levels
         </Text>
         <Group>
-          <QRCode variant="3d" animate animationType="glow" intensity={100} size="xl" color="green" />
-          <QRCode variant="3d" animate animationType="pulse" intensity={90} size="xl" color="red" />
-          <QRCode variant="3d" animate animationType="breathe" intensity={95} size="xl" color="blue" />
+          {(['L', 'M', 'Q', 'H'] as const).map((ecl) => (
+            <Stack key={ecl} align="center">
+              <QRCode value="https://mantine.dev" errorCorrectionLevel={ecl} size="lg" />
+              <Text size="xs">{ecl}</Text>
+            </Stack>
+          ))}
+        </Group>
+      </Paper>
+
+      <Paper p="md" withBorder>
+        <Text fw={500} mb="md">
+          With Image
+        </Text>
+        <Group>
+          <QRCode
+            value="https://mantine.dev"
+            size="xl"
+            image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
+            errorCorrectionLevel="H"
+          />
+          <QRCode
+            value="https://mantine.dev"
+            size="xl"
+            image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
+            errorCorrectionLevel="H"
+            dotStyle="dots"
+            cornerStyle="dots"
+          />
+        </Group>
+      </Paper>
+
+      <Paper p="md" withBorder>
+        <Text fw={500} mb="md">
+          Combined Styles
+        </Text>
+        <Group>
+          <QRCode
+            value="https://mantine.dev"
+            dotStyle="rounded"
+            cornerStyle="rounded"
+            color="blue"
+            size="xl"
+          />
+          <QRCode
+            value="https://mantine.dev"
+            dotStyle="dots"
+            cornerStyle="dots"
+            color="violet"
+            size="xl"
+          />
+          <QRCode
+            value="https://mantine.dev"
+            dotStyle="dots"
+            cornerStyle="rounded"
+            color="teal"
+            bgColor="dark"
+            size="xl"
+          />
         </Group>
       </Paper>
     </Stack>
   );
 }
 
-export function WithProps(props: QRCodeProps) {
+export function WithProps(props: any) {
   return <QRCode {...props} />;
-}
-
-export function WithLabel() {
-  return (
-    <>
-      <Group>
-        <QRCode label="Server Online" color="green" />
-        <QRCode label="Server Offline" color="red" value={false} />
-        <QRCode label={<Text c="blue">Custom Label</Text>} color="blue" />
-      </Group>
-      <Divider />
-      <div>
-        <QRCode label="Left Label" labelPosition="left" color="orange" />
-      </div>
-
-      <div>
-        <QRCode label="Right Label" labelPosition="right" color="pink" />
-      </div>
-
-      <Divider />
-      <Stack>
-        <QRCode label="Left Label" labelPosition="left" color="orange" />
-
-        <QRCode label="Right Label" labelPosition="right" color="pink" />
-      </Stack>
-    </>
-  );
 }

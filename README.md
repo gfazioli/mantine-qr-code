@@ -23,10 +23,16 @@ The [Mantine QR Code](https://gfazioli.github.io/mantine-qr-code/) component is 
 
 ## Features
 
-- 🎨 **Theme Integration**: Full Mantine theme support with all theme colors
-- 📐 **Flexible Sizing**: Supports all Mantine sizes plus custom values
-- 🎨 **Styles API**: Extensive styling customization support
+- 🎨 **Theme Integration**: Full Mantine theme support with all theme colors for foreground and background
+- 📐 **Flexible Sizing**: Supports all Mantine sizes (xs–xl) plus custom values
+- 🔵 **Dot Styles**: Three data module styles — `square`, `rounded`, `dots`
+- 🔲 **Corner Styles**: Three finder pattern styles — `square`, `rounded`, `dots`
+- 🖼️ **Image Overlay**: Add a logo or image at the center with automatic module excavation
+- 🛡️ **Error Correction**: Four levels — L (7%), M (15%), Q (25%), H (30%)
+- 📥 **Download Hook**: `useQRCodeDownload` hook to export as SVG, PNG, JPEG, or WebP
+- 🎨 **Styles API**: Full Mantine Styles API with 8 style selectors (`root`, `svg`, `background`, `modules`, `finderPattern`, `finderOuter`, `finderInner`, `image`)
 - 📦 **TypeScript**: Full type safety out of the box
+- ⚡ **SSR Compatible**: Works with Next.js server-side rendering
 
 > [!note]
 >
@@ -55,7 +61,49 @@ import '@gfazioli/mantine-qr-code/styles.css';
 import { QRCode } from '@gfazioli/mantine-qr-code';
 
 function Demo() {
-  return  <QRCode />;
+  return <QRCode value="https://mantine.dev" />;
+}
+```
+
+### Custom styles
+
+```tsx
+<QRCode
+  value="https://mantine.dev"
+  size="xl"
+  color="blue"
+  dotStyle="rounded"
+  cornerStyle="rounded"
+/>
+```
+
+### Image overlay
+
+```tsx
+<QRCode
+  value="https://mantine.dev"
+  size="xl"
+  image="https://example.com/logo.png"
+  errorCorrectionLevel="H"
+  imageRadius="md"
+/>
+```
+
+### Download as SVG/PNG
+
+```tsx
+import { QRCode, useQRCodeDownload } from '@gfazioli/mantine-qr-code';
+
+function Demo() {
+  const { ref, download } = useQRCodeDownload({ fileName: 'my-qr-code' });
+
+  return (
+    <>
+      <QRCode ref={ref} value="https://mantine.dev" />
+      <button onClick={() => download({ format: 'png' })}>Download PNG</button>
+      <button onClick={() => download({ format: 'svg' })}>Download SVG</button>
+    </>
+  );
 }
 ```
 

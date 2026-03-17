@@ -1,8 +1,10 @@
-export { animations } from './QRCode.demo.animations';
 export { colors } from './QRCode.demo.colors';
 export { configurator } from './QRCode.demo.configurator';
-export { controlled } from './QRCode.demo.controlled';
-export { defcon } from './QRCode.demo.defcon';
-export { labels } from './QRCode.demo.labels';
-export { statusPanel } from './QRCode.demo.statusPanel';
+export { cornerStyles } from './QRCode.demo.cornerStyles';
+export { dotStyles } from './QRCode.demo.dotStyles';
+export { download } from './QRCode.demo.download';
+export { errorCorrection } from './QRCode.demo.errorCorrection';
 export { stylesApi } from './QRCode.demo.stylesApi';
+export { usage } from './QRCode.demo.usage';
+export { useCases } from './QRCode.demo.useCases';
+export { withImage } from './QRCode.demo.withImage';

@@ -19,60 +19,58 @@ import '@gfazioli/mantine-qr-code/styles.layer.css';
 
 ## Usage
 
+<Demo data={demos.usage} />
+
+## Configurator
+
 Explore all available props and see the component in action:
 
 <Demo data={demos.configurator} />
 
-## Controlled
-
-The QRCode component is fully controlled through the `value` prop. Here's an example of controlling the QRCode state:
-
-<Demo data={demos.controlled} />
-
 ## Colors
 
-The QRCode component supports all Mantine theme colors. Use the `color` prop to set the QRCode color:
+The QRCode component supports all Mantine theme colors. Use the `color` and `bgColor` props to customize:
 
 <Demo data={demos.colors} />
 
-## Animations
+## Dot styles
 
-Add visual feedback with built-in animations. The component supports multiple animation types:
+Control the appearance of data modules with the `dotStyle` prop:
 
-- **pulse**: Smooth pulsing effect (default)
-- **flash**: Quick flashing
-- **breathe**: Slow breathing effect
-- **blink**: Regular blinking
-- **glow**: Glowing effect with increased intensity
+<Demo data={demos.dotStyles} />
 
-<Demo data={demos.animations} />
+## Corner styles
 
-## Labels
+Customize the three finder patterns (corners) with the `cornerStyle` prop:
 
-Add descriptive labels to your QRCode indicators with full customization support:
+<Demo data={demos.cornerStyles} />
 
-<Demo data={demos.labels} />
+## Error correction
 
-The `label` prop accepts any React node, allowing you to use custom components like badges, icons, or formatted text. Use `labelPosition` to control whether the label appears on the left or right side of the QRCode.
+QR codes support four error correction levels. Higher levels allow more damage tolerance but produce denser codes:
+
+<Demo data={demos.errorCorrection} />
+
+## Image overlay
+
+Add a logo or image at the center of the QR code. Use `errorCorrectionLevel="H"` for best results when overlaying images:
+
+<Demo data={demos.withImage} />
+
+## Download
+
+Use the `useQRCodeDownload` hook to download the QR code as SVG or PNG:
+
+<Demo data={demos.download} />
 
 ## Styles API
 
 `QRCode` supports [Styles API](https://mantine.dev/styles/styles-api/), you can add styles to any inner element of the component with `classNames` prop. Follow [Styles API](https://mantine.dev/styles/styles-api/) documentation to learn more.
 
-You can customize the appearance of the `QRCode` component using the Styles API. This allows you to modify styles for various parts of the component, such as the root, qrCode, and label.
-
 <Demo data={demos.stylesApi} />
 
-## Use Cases
+## Use cases
 
-### System Status Panel
+QR codes can encode various data types including URLs, WiFi credentials, and contact information:
 
-Monitor multiple system components with organized QRCode indicators:
-
-<Demo data={demos.statusPanel} />
-
-### DEFCON Alert System
-
-A fun example showing how to build a DEFCON (Defense Readiness Condition) alert system with animated QRCodes:
-
-<Demo data={demos.defcon} />
+<Demo data={demos.useCases} />

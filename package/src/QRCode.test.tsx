@@ -4,55 +4,86 @@ import { QRCode } from './QRCode';
 
 describe('QRCode', () => {
   it('renders without crashing', () => {
-    const { container } = render(<QRCode />);
+    const { container } = render(<QRCode value="https://mantine.dev" />);
     expect(container).toBeTruthy();
   });
 
   it('forwards ref', () => {
     const ref = React.createRef<HTMLDivElement>();
-    render(<QRCode ref={ref} />);
+    render(<QRCode value="test" ref={ref} />);
     expect(ref.current).toBeTruthy();
   });
 
-  it('applies value prop as data attribute when true', () => {
-    const { container } = render(<QRCode />);
-    const root = container.querySelector('[data-value]');
-    expect(root).toBeTruthy();
+  it('renders SVG element with QR data', () => {
+    const { container } = render(<QRCode value="https://mantine.dev" />);
+    const svg = container.querySelector('svg');
+    expect(svg).toBeTruthy();
+    expect(svg?.getAttribute('viewBox')).toBeTruthy();
   });
 
-  it('does not apply value data attribute when false', () => {
-    const { container } = render(<QRCode value={false} />);
-    const root = container.querySelector('[data-value]');
-    expect(root).toBeFalsy();
+  it('renders background rect', () => {
+    const { container } = render(<QRCode value="test" />);
+    const rect = container.querySelector('rect');
+    expect(rect).toBeTruthy();
   });
 
-  it('applies animation type as data attribute when animate is true and value is true', () => {
-    const { container } = render(<QRCode animate animationType="pulse" />);
-    const root = container.querySelector('[data-animate="pulse"]');
-    expect(root).toBeTruthy();
+  it('renders data modules path', () => {
+    const { container } = render(<QRCode value="test" />);
+    const paths = container.querySelectorAll('path');
+    expect(paths.length).toBeGreaterThan(0);
   });
 
-  it('does not apply animation when animate is false', () => {
-    const { container } = render(<QRCode animate={false} animationType="pulse" />);
-    const root = container.querySelector('[data-animate]');
-    expect(root).toBeFalsy();
+  it('renders three finder patterns', () => {
+    const { container } = render(<QRCode value="test" />);
+    const groups = container.querySelectorAll('g');
+    expect(groups.length).toBe(3);
   });
 
-  it('does not apply animation when value is false', () => {
-    const { container } = render(<QRCode animate animationType="pulse" value={false} />);
-    const root = container.querySelector('[data-animate]');
-    expect(root).toBeFalsy();
+  it('renders empty SVG when value is empty', () => {
+    const { container } = render(<QRCode value="" />);
+    const svg = container.querySelector('svg');
+    expect(svg).toBeTruthy();
+    expect(svg?.getAttribute('viewBox')).toBeFalsy();
   });
 
-  it('supports flat variant', () => {
-    const { container } = render(<QRCode variant="flat" />);
-    const root = container.querySelector('[data-variant="flat"]');
-    expect(root).toBeTruthy();
+  it('supports different dot styles', () => {
+    const { container: sq } = render(<QRCode value="test" dotStyle="square" />);
+    const { container: rd } = render(<QRCode value="test" dotStyle="rounded" />);
+    const { container: dt } = render(<QRCode value="test" dotStyle="dots" />);
+    expect(sq.querySelector('path')).toBeTruthy();
+    expect(rd.querySelector('path')).toBeTruthy();
+    expect(dt.querySelector('path')).toBeTruthy();
   });
 
-  it('supports 3d variant', () => {
-    const { container } = render(<QRCode variant="3d" />);
-    const root = container.querySelector('[data-variant="3d"]');
-    expect(root).toBeTruthy();
+  it('supports different corner styles', () => {
+    const { container: sq } = render(<QRCode value="test" cornerStyle="square" />);
+    const { container: rd } = render(<QRCode value="test" cornerStyle="rounded" />);
+    const { container: dt } = render(<QRCode value="test" cornerStyle="dots" />);
+    expect(sq.querySelector('g')).toBeTruthy();
+    expect(rd.querySelector('g')).toBeTruthy();
+    expect(dt.querySelector('g')).toBeTruthy();
+  });
+
+  it('renders image element when image prop is provided', () => {
+    const { container } = render(
+      <QRCode value="test" image="https://example.com/logo.png" errorCorrectionLevel="H" />
+    );
+    const image = container.querySelector('image');
+    expect(image).toBeTruthy();
+    expect(image?.getAttribute('href')).toBe('https://example.com/logo.png');
+  });
+
+  it('does not render image element when image prop is not provided', () => {
+    const { container } = render(<QRCode value="test" />);
+    const image = container.querySelector('image');
+    expect(image).toBeFalsy();
+  });
+
+  it('supports different error correction levels', () => {
+    const levels = ['L', 'M', 'Q', 'H'] as const;
+    levels.forEach((level) => {
+      const { container } = render(<QRCode value="test" errorCorrectionLevel={level} />);
+      expect(container.querySelector('svg')).toBeTruthy();
+    });
   });
 });

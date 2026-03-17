@@ -30,9 +30,9 @@ export const ecosystem = [
     newWindow: true,
   },
   {
-    key: 'mantine-qr-code',
-    title: 'Mantine QR Code',
-    href: 'https://gfazioli.github.io/mantine-qr-code',
+    key: 'mantine-led',
+    title: 'Mantine Led',
+    href: 'https://gfazioli.github.io/mantine-led',
     newWindow: true,
   },
   {
@@ -72,6 +72,13 @@ export const ecosystem = [
     newWindow: true,
   },
   {
+    key: 'mantine-qr-code',
+    title: 'Mantine QR Code',
+    href: 'https://gfazioli.github.io/mantine-qr-code',
+    newWindow: true,
+    new: true,
+  },
+  {
     key: 'mantine-reflection',
     title: 'Mantine Reflection',
     href: 'https://gfazioli.github.io/mantine-reflection',
@@ -88,7 +95,12 @@ export const ecosystem = [
     title: 'Mantine Select Stepper',
     href: 'https://gfazioli.github.io/mantine-select-stepper',
     newWindow: true,
-    new: true,
+  },
+  {
+    key: 'mantine-scene',
+    title: 'Mantine Scene',
+    href: 'https://gfazioli.github.io/mantine-scene',
+    newWindow: true,
   },
   {
     key: 'mantine-spinner',

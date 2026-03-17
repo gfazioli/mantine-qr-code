@@ -33,7 +33,7 @@ function serializeSvg(svgElement: SVGSVGElement): string {
 
   // Get computed styles and inline them
   const computedStyle = getComputedStyle(svgElement);
-  const bgColor = computedStyle.getPropertyValue('--qr-code-bg-color').trim() || '#ffffff';
+  const bgColor = computedStyle.getPropertyValue('--qr-code-background').trim() || '#ffffff';
   const fgColor = computedStyle.getPropertyValue('--qr-code-color').trim() || '#000000';
 
   // Apply colors to cloned SVG elements

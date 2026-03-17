@@ -4,7 +4,6 @@
  */
 export function getExcavationMask(
   matrixSize: number,
-  _quietZone: number,
   imageModuleSize: number,
   imagePadding: number
 ): boolean[][] {
@@ -23,11 +22,4 @@ export function getExcavationMask(
   }
 
   return mask;
-}
-
-/**
- * Convert a module count to pixels given cell size and quiet zone.
- */
-export function moduleToPixel(moduleIndex: number, cellSize: number, quietZone: number): number {
-  return (moduleIndex + quietZone) * cellSize;
 }

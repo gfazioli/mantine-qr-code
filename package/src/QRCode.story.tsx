@@ -8,7 +8,7 @@ export default {
     value: 'https://mantine.dev',
     size: 'md',
     color: 'dark',
-    bgColor: 'white',
+    background: 'white',
     dotStyle: 'square',
     cornerStyle: 'square',
     errorCorrectionLevel: 'M',
@@ -19,7 +19,7 @@ export default {
     cornerStyle: { control: 'select', options: ['square', 'rounded', 'dots'] },
     errorCorrectionLevel: { control: 'select', options: ['L', 'M', 'Q', 'H'] },
     color: { control: 'color' },
-    bgColor: { control: 'color' },
+    background: { control: 'color' },
   },
 };
 
@@ -150,7 +150,7 @@ export function Usage() {
             dotStyle="dots"
             cornerStyle="rounded"
             color="teal"
-            bgColor="dark"
+            background="dark"
             size="xl"
           />
         </Group>

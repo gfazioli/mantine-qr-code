@@ -18,11 +18,15 @@
 }
 
 .background {
-  fill: var(--qr-code-bg-color);
+  fill: var(--qr-code-background);
 }
 
 .modules {
   fill: var(--qr-code-color);
+}
+
+.finderPattern {
+  /* Group wrapper for each finder pattern — useful for targeted styling */
 }
 
 .finderOuter {
@@ -31,4 +35,8 @@
 
 .finderInner {
   fill: var(--qr-code-color);
+}
+
+.image {
+  /* Center image overlay — useful for targeted styling (e.g. opacity, filters) */
 }

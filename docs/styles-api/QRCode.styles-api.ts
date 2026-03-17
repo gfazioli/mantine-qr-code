@@ -18,7 +18,7 @@ export const QRCodeStylesApi: StylesApiData<QRCodeFactory> = {
       '--qr-code-size': 'Controls QR code width and height',
       '--qr-code-radius': 'Controls border radius of the container',
       '--qr-code-color': 'Controls foreground (module) color',
-      '--qr-code-bg-color': 'Controls background color',
+      '--qr-code-background': 'Controls background color',
     },
   },
 

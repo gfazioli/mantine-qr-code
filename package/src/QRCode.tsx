@@ -36,7 +36,7 @@ export type QRCodeStylesNames =
   | 'image';
 
 export interface QRCodeCssVariables {
-  root: '--qr-code-size' | '--qr-code-radius' | '--qr-code-color' | '--qr-code-bg-color';
+  root: '--qr-code-size' | '--qr-code-radius' | '--qr-code-color' | '--qr-code-background';
 }
 
 export interface QRCodeBaseProps {
@@ -53,7 +53,7 @@ export interface QRCodeBaseProps {
   color?: MantineColor;
 
   /** Background color from Mantine theme, or 'transparent' */
-  bgColor?: MantineColor | 'transparent';
+  background?: MantineColor | 'transparent';
 
   /** Error correction level: L (7%), M (15%), Q (25%), H (30%) */
   errorCorrectionLevel?: QRCodeErrorCorrectionLevel;
@@ -94,7 +94,7 @@ export type QRCodeFactory = PolymorphicFactory<{
 const defaultProps: Partial<QRCodeBaseProps> = {
   size: 'md',
   color: 'dark',
-  bgColor: 'white',
+  background: 'white',
   errorCorrectionLevel: 'M',
   quietZone: 1,
   dotStyle: 'square',
@@ -105,18 +105,18 @@ const defaultProps: Partial<QRCodeBaseProps> = {
 };
 
 const varsResolver = createVarsResolver<QRCodeFactory>((theme, props) => {
-  const { size, radius, color, bgColor } = props;
+  const { size, radius, color, background } = props;
 
   return {
     root: {
       '--qr-code-size': getSize(size, 'qr-code-size'),
       '--qr-code-radius': radius !== undefined ? getRadius(radius) : undefined,
       '--qr-code-color': color ? getThemeColor(color, theme) : undefined,
-      '--qr-code-bg-color':
-        bgColor === 'transparent'
+      '--qr-code-background':
+        background === 'transparent'
           ? 'transparent'
-          : bgColor
-            ? getThemeColor(bgColor, theme)
+          : background
+            ? getThemeColor(background, theme)
             : undefined,
     },
   };
@@ -135,7 +135,7 @@ export const QRCode = polymorphicFactory<QRCodeFactory>((_props, ref) => {
     size,
     radius,
     color,
-    bgColor,
+    background,
     errorCorrectionLevel,
     quietZone,
     dotStyle,
@@ -187,7 +187,7 @@ export const QRCode = polymorphicFactory<QRCodeFactory>((_props, ref) => {
     let excavationMask: boolean[][] | null = null;
     if (image && imageExcavate) {
       const imgModules = Math.ceil(matrixSize * imageSize!);
-      excavationMask = getExcavationMask(matrixSize, qz, imgModules, imagePadding!);
+      excavationMask = getExcavationMask(matrixSize, imgModules, imagePadding!);
     }
 
     // Build data modules path (excluding finder patterns and excavated area)
@@ -211,15 +211,15 @@ export const QRCode = polymorphicFactory<QRCodeFactory>((_props, ref) => {
 
     // Finder patterns at three corners
     const finderPositions = [
-      { row: 0, col: 0 },
-      { row: 0, col: matrixSize - 7 },
-      { row: matrixSize - 7, col: 0 },
+      { key: 'top-left', row: 0, col: 0 },
+      { key: 'top-right', row: 0, col: matrixSize - 7 },
+      { key: 'bottom-left', row: matrixSize - 7, col: 0 },
     ];
 
     const finders = finderPositions.map((pos) => {
       const fx = (pos.col + qz) * cellSize;
       const fy = (pos.row + qz) * cellSize;
-      return finderPatternPaths(fx, fy, cellSize, cornerStyle!);
+      return { key: pos.key, ...finderPatternPaths(fx, fy, cellSize, cornerStyle!) };
     });
 
     // Image overlay
@@ -261,11 +261,13 @@ export const QRCode = polymorphicFactory<QRCodeFactory>((_props, ref) => {
         {...getStyles('svg')}
         viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
         xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label={`QR Code: ${value}`}
       >
         <rect {...getStyles('background')} x="0" y="0" width={viewBoxSize} height={viewBoxSize} />
         {modulesPath && <path {...getStyles('modules')} d={modulesPath} fillRule="nonzero" />}
-        {finders.map((finder, i) => (
-          <g key={i} {...getStyles('finderPattern')}>
+        {finders.map((finder) => (
+          <g key={finder.key} {...getStyles('finderPattern')}>
             <path {...getStyles('finderOuter')} d={finder.outer} fillRule="evenodd" />
             <path {...getStyles('finderInner')} d={finder.inner} />
           </g>

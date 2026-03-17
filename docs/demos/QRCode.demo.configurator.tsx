@@ -31,7 +31,7 @@ export const configurator: MantineDemo = {
     },
     {
       type: 'color',
-      prop: 'bgColor',
+      prop: 'background',
       initialValue: 'white',
       libraryValue: 'white',
     },

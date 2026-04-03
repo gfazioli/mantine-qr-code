@@ -11,14 +11,14 @@ export interface UseQRCodeDownloadOptions {
 
 export interface UseQRCodeDownloadReturn {
   /** Ref to attach to the QRCode component's root element */
-  ref: React.RefObject<HTMLDivElement>;
+  ref: React.RefObject<HTMLDivElement | null>;
   /** Download the QR code */
   download: (options?: { format?: string; fileName?: string; scale?: number }) => Promise<void>;
   /** Get data URL of the QR code */
   getDataUrl: (options?: { format?: string; scale?: number }) => Promise<string>;
 }
 
-function getSvgElement(containerRef: React.RefObject<HTMLDivElement>): SVGSVGElement | null {
+function getSvgElement(containerRef: React.RefObject<HTMLDivElement | null>): SVGSVGElement | null {
   return containerRef.current?.querySelector('svg') ?? null;
 }
 

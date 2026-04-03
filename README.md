@@ -18,6 +18,7 @@
 ## Overview
 
 This component is created on top of the [Mantine](https://mantine.dev/) library.
+It requires **Mantine 9.x** and **React 19**.
 
 The [Mantine QR Code](https://gfazioli.github.io/mantine-qr-code/) component is a highly customizable QR Code generator for React applications built with Mantine.
 

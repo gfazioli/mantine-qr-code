@@ -122,7 +122,7 @@ const varsResolver = createVarsResolver<QRCodeFactory>((theme, props) => {
   };
 });
 
-export const QRCode = polymorphicFactory<QRCodeFactory>((_props, ref) => {
+export const QRCode = polymorphicFactory<QRCodeFactory>((_props) => {
   const props = useProps('QRCode', defaultProps, _props);
   const {
     classNames,
@@ -247,7 +247,7 @@ export const QRCode = polymorphicFactory<QRCodeFactory>((_props, ref) => {
 
   if (!svgContent) {
     return (
-      <Box ref={ref} {...getStyles('root')} {...others}>
+      <Box {...getStyles('root')} {...others}>
         <svg {...getStyles('svg')} />
       </Box>
     );
@@ -256,7 +256,7 @@ export const QRCode = polymorphicFactory<QRCodeFactory>((_props, ref) => {
   const { viewBoxSize, modulesPath, finders, imageElement } = svgContent;
 
   return (
-    <Box ref={ref} {...getStyles('root')} {...others}>
+    <Box {...getStyles('root')} {...others}>
       <svg
         {...getStyles('svg')}
         viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}

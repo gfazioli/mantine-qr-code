@@ -1,23 +1,24 @@
 {
   "name": "@gfazioli/mantine-qr-code",
   "version": "1.0.0",
-  "description": "A highly customizable QR Code component for React applications built with Mantine.",
+  "description": "A Mantine 9 QR Code component for React with custom dot/finder shapes, image overlay, SVG/PNG download hook, and full Styles API.",
   "homepage": "https://gfazioli.github.io/mantine-qr-code/",
   "packageManager": "yarn@4.0.1",
   "license": "MIT",
   "author": "Giovambattista Fazioli <giovambattista.fazioli@gmail.com>",
   "keywords": [
     "component",
+    "download",
     "extension",
-    "qr-code",
-    "library",
     "mantine",
-    "nextjs",
+    "mantine-ui",
+    "mantine-v9",
+    "qr-code",
+    "qr-code-generator",
     "react",
     "react-component",
-    "reactjs",
-    "typescript",
-    "ui"
+    "svg",
+    "typescript"
   ],
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/esm/index.mjs",
@@ -43,8 +44,8 @@
     "react": "^18.x || ^19.x",
     "react-dom": "^18.x || ^19.x"
   },
-  "bugs": "https://github.com/gfazioli/mantine-qr-code/issues",
   "dependencies": {
     "qrcode": "^1.5.4"
-  }
+  },
+  "bugs": "https://github.com/gfazioli/mantine-qr-code/issues"
 }

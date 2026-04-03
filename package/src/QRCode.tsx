@@ -123,7 +123,8 @@ const varsResolver = createVarsResolver<QRCodeFactory>((theme, props) => {
 });
 
 export const QRCode = polymorphicFactory<QRCodeFactory>((_props) => {
-  const props = useProps('QRCode', defaultProps, _props);
+  const { ref, ...restProps } = _props as typeof _props & { ref?: React.Ref<HTMLDivElement> };
+  const props = useProps('QRCode', defaultProps, restProps);
   const {
     classNames,
     className,
@@ -247,7 +248,7 @@ export const QRCode = polymorphicFactory<QRCodeFactory>((_props) => {
 
   if (!svgContent) {
     return (
-      <Box {...getStyles('root')} {...others}>
+      <Box ref={ref} {...getStyles('root')} {...others}>
         <svg {...getStyles('svg')} />
       </Box>
     );

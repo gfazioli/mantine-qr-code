@@ -1,4 +1,3 @@
-import React, { useMemo } from 'react';
 import {
   Box,
   createVarsResolver,
@@ -16,6 +15,7 @@ import {
   type PolymorphicFactory,
   type StylesApiProps,
 } from '@mantine/core';
+import React, { useMemo } from 'react';
 import { dotPath, type DotStyle } from './lib/dot-shapes';
 import { finderPatternPaths, type CornerStyle } from './lib/finder-shapes';
 import { generateQRMatrix, isFinderPattern } from './lib/qr-encoder';

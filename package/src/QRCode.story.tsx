@@ -1,5 +1,5 @@
-import React from 'react';
 import { Group, Paper, Stack, Text } from '@mantine/core';
+import React from 'react';
 import { QRCode } from './QRCode';
 
 export default {

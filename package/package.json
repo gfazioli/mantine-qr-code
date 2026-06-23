@@ -1,6 +1,6 @@
 {
   "name": "@gfazioli/mantine-qr-code",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "A Mantine 9 QR Code component for React with custom dot/finder shapes, image overlay, SVG/PNG download hook, and full Styles API.",
   "homepage": "https://gfazioli.github.io/mantine-qr-code/",
   "packageManager": "yarn@4.0.1",

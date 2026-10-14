@@ -31,10 +31,10 @@ Yarn workspaces monorepo with two workspaces: `package/` (npm package) and `docs
 - `QRCode.tsx` -- Main component using Mantine's `polymorphicFactory()` pattern with `useProps()` and `useStyles()` hooks.
 - `QRCode.module.css` -- CSS module with custom properties for dynamic values.
 - `use-qr-code-download.ts` -- Hook for downloading the QR code as an image.
-- `lib/qr-encoder.ts` -- Custom QR code encoding logic.
-- `lib/dot-shapes.ts` -- Configurable dot shape renderers.
-- `lib/finder-shapes.ts` -- Configurable finder pattern shape renderers.
-- `lib/utils.ts` -- Shared utilities.
+- `package/src/lib/qr-encoder.ts` -- Custom QR code encoding logic.
+- `package/src/lib/dot-shapes.ts` -- Configurable dot shape renderers.
+- `package/src/lib/finder-shapes.ts` -- Configurable finder pattern shape renderers.
+- `package/src/lib/utils.ts` -- Shared utilities.
 - `index.ts` -- Public exports (component, hook, types).
 
 ### Build Pipeline

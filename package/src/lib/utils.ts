@@ -1,25 +1,17 @@
 /**
- * Determine which modules should be cleared ("excavated") to make room for an image overlay.
- * Returns a 2D boolean array where true = module should be hidden.
+ * Module range `[start, end)` to clear ("excavate") on both axes to make room for an image overlay.
+ *
+ * A QR matrix always has an odd number of modules per side and the image is centred on it,
+ * so the cleared square is only centred on the image when it spans an odd number of modules.
+ * Its side is the odd count nearest to the image plus `imagePadding` modules on each side,
+ * which leaves the same clearance on all four sides: `imagePadding` give or take half a module.
  */
-export function getExcavationMask(
+export function getExcavationBounds(
   matrixSize: number,
   imageModuleSize: number,
   imagePadding: number
-): boolean[][] {
-  const mask: boolean[][] = Array.from({ length: matrixSize }, () => Array(matrixSize).fill(false));
-
-  const totalImageModules = imageModuleSize + imagePadding * 2;
-  const startModule = Math.floor((matrixSize - totalImageModules) / 2);
-  const endModule = startModule + totalImageModules;
-
-  for (let row = 0; row < matrixSize; row++) {
-    for (let col = 0; col < matrixSize; col++) {
-      if (row >= startModule && row < endModule && col >= startModule && col < endModule) {
-        mask[row][col] = true;
-      }
-    }
-  }
-
-  return mask;
+): { start: number; end: number } {
+  const clearedModules = 2 * Math.round((imageModuleSize + imagePadding * 2 - 1) / 2) + 1;
+  const start = (matrixSize - clearedModules) / 2;
+  return { start, end: start + clearedModules };
 }

@@ -36,10 +36,19 @@ function buildModules(): { size: number; data: Uint8Array } {
   return { size: SIZE, data };
 }
 
+/**
+ * A test that sets `globalThis.qrMockAllDarkSize` gets an all-dark matrix of that size instead,
+ * so every module the component leaves out (e.g. behind an image) shows up as a gap.
+ */
+function buildAllDarkModules(size: number): { size: number; data: Uint8Array } {
+  return { size, data: new Uint8Array(size * size).fill(1) };
+}
+
 const qrcode = {
-  create: (_value: string, _options?: Record<string, unknown>) => ({
-    modules: buildModules(),
-  }),
+  create: (_value: string, _options?: Record<string, unknown>) => {
+    const allDarkSize = (globalThis as { qrMockAllDarkSize?: number }).qrMockAllDarkSize;
+    return { modules: allDarkSize ? buildAllDarkModules(allDarkSize) : buildModules() };
+  },
 };
 
 export default qrcode;

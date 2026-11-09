@@ -19,7 +19,7 @@ import React, { useMemo } from 'react';
 import { dotPath, type DotStyle } from './lib/dot-shapes';
 import { finderPatternPaths, type CornerStyle } from './lib/finder-shapes';
 import { generateQRMatrix, isFinderPattern } from './lib/qr-encoder';
-import { getExcavationMask } from './lib/utils';
+import { getExcavationBounds } from './lib/utils';
 import classes from './QRCode.module.css';
 
 export type QRCodeErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
@@ -76,7 +76,7 @@ export interface QRCodeBaseProps {
   /** Border radius of the center image */
   imageRadius?: MantineRadius | (string & {}) | number;
 
-  /** Padding around the image in modules */
+  /** Clearance around the image in modules, within half a module so the cleared area stays centred */
   imagePadding?: number;
 
   /** Remove QR modules behind the image */
@@ -183,12 +183,12 @@ export const QRCode = polymorphicFactory<QRCodeFactory>((_props) => {
     const cellSize = 1;
     const viewBoxSize = totalModules * cellSize;
 
-    // Excavation mask for image overlay
-    let excavationMask: boolean[][] | null = null;
-    if (image && imageExcavate) {
-      const imgModules = Math.ceil(matrixSize * imageSize!);
-      excavationMask = getExcavationMask(matrixSize, imgModules, imagePadding!);
-    }
+    // Image side in modules, shared by the excavated area and the image so both stay centred
+    const imageModules = matrixSize * imageSize!;
+    const excavation =
+      image && imageExcavate ? getExcavationBounds(matrixSize, imageModules, imagePadding!) : null;
+    const isExcavated = (index: number) =>
+      excavation !== null && index >= excavation.start && index < excavation.end;
 
     // Build data modules path (excluding finder patterns and excavated area)
     let modulesPath = '';
@@ -200,7 +200,7 @@ export const QRCode = polymorphicFactory<QRCodeFactory>((_props) => {
         if (isFinderPattern(row, col, matrixSize)) {
           continue;
         }
-        if (excavationMask && excavationMask[row][col]) {
+        if (isExcavated(row) && isExcavated(col)) {
           continue;
         }
         const x = (col + qz) * cellSize;
@@ -225,7 +225,7 @@ export const QRCode = polymorphicFactory<QRCodeFactory>((_props) => {
     // Image overlay
     let imageElement = null;
     if (image) {
-      const imgPixelSize = matrixSize * imageSize! * cellSize;
+      const imgPixelSize = imageModules * cellSize;
       const imgX = (viewBoxSize - imgPixelSize) / 2;
       const imgY = (viewBoxSize - imgPixelSize) / 2;
       const imgRad = imageRadius !== undefined ? getRadius(imageRadius) : '0';

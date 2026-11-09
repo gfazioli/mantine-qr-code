@@ -1,5 +1,6 @@
 import { QRCode } from '@gfazioli/mantine-qr-code';
 import { MantineDemo } from '@mantinex/demo';
+import { DEMO_IMAGE } from './demo-image';
 
 const code = `
 import { QRCode } from '@gfazioli/mantine-qr-code';
@@ -93,8 +94,7 @@ export const configurator: MantineDemo = {
     {
       type: 'string',
       prop: 'image',
-      initialValue:
-        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
+      initialValue: DEMO_IMAGE,
       libraryValue: null,
     },
     {

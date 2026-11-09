@@ -1,6 +1,7 @@
 import { QRCode } from '@gfazioli/mantine-qr-code';
 import { Group } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
+import { DEMO_IMAGE } from './demo-image';
 
 const code = `
 import { Group } from '@mantine/core';
@@ -12,13 +13,13 @@ function Demo() {
       <QRCode
         value="https://mantine.dev"
         size="xl"
-        image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
+        image="${DEMO_IMAGE}"
         errorCorrectionLevel="H"
       />
       <QRCode
         value="https://mantine.dev"
         size="xl"
-        image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
+        image="${DEMO_IMAGE}"
         errorCorrectionLevel="H"
         dotStyle="dots"
         cornerStyle="dots"
@@ -33,16 +34,11 @@ export const withImage: MantineDemo = {
   type: 'code',
   component: () => (
     <Group>
+      <QRCode value="https://mantine.dev" size="xl" image={DEMO_IMAGE} errorCorrectionLevel="H" />
       <QRCode
         value="https://mantine.dev"
         size="xl"
-        image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
-        errorCorrectionLevel="H"
-      />
-      <QRCode
-        value="https://mantine.dev"
-        size="xl"
-        image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
+        image={DEMO_IMAGE}
         errorCorrectionLevel="H"
         dotStyle="dots"
         cornerStyle="dots"

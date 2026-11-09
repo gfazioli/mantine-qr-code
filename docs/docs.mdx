@@ -57,15 +57,17 @@ Add a logo or image at the center of the QR code. Use `errorCorrectionLevel="H"`
 
 <Demo data={demos.withImage} />
 
-- `imageSize` sets the image side as a fraction of the QR code, quiet zone excluded (default `0.2`). The larger the image, the more modules it hides, so keep it small enough for the error correction level to recover them.
-- `imagePadding` sets the clearance around the image, in modules (default `1`). The cleared area always spans a whole, odd number of modules so it stays centered, which makes the clearance the same on all four sides and within half a module of `imagePadding`.
-- `imageExcavate` removes the modules behind the image and its padding (default `true`). Set it to `false` to draw the image over the modules instead.
-
-Try them in the [configurator](#configurator).
+- `imageSize` (default `0.2`): the image side as a fraction of the QR code, quiet zone excluded. Keep it small enough for the error correction level to recover the modules it hides.
+- `imagePadding` (default `1`): the clearance around the image, in modules. The cleared area spans an odd number of whole modules so it stays centered, so the clearance can differ from `imagePadding` by up to half a module.
+- `imageExcavate` (default `true`): removes the modules behind the image and its padding. Set it to `false` to draw the image over the modules instead.
 
 ## Download
 
-Use the `useQRCodeDownload` hook to download the QR code as SVG, PNG, JPEG or WebP. It takes the default `format` (`png`), `fileName` (`qrcode`) and `scale` for raster formats (`4`), and each `download()` call can override them. `getDataUrl()` returns the same image as a data URL instead of downloading it:
+Use the `useQRCodeDownload` hook to download the QR code as SVG, PNG, JPEG or WebP:
+
+- its options set the defaults for every call: `format` (`png`), `fileName` (`qrcode`) and `scale` for raster formats (`4`);
+- `download()` takes the same options to override them for one download;
+- `getDataUrl()` returns the image as a data URL instead of downloading it.
 
 <Demo data={demos.download} />
 

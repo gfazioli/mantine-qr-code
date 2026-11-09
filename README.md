@@ -92,7 +92,7 @@ function Demo() {
   image="https://example.com/logo.png"
   errorCorrectionLevel="H"
   imageSize={0.25}
-  imagePadding={1}
+  imagePadding={2}
   imageRadius="md"
 />
 ```

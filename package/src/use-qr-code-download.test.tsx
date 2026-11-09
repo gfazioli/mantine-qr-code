@@ -1,28 +1,20 @@
 import { render } from '@mantine-tests/core';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { QRCode } from './QRCode';
 import { useQRCodeDownload, type UseQRCodeDownloadReturn } from './use-qr-code-download';
 
 const IMAGE_URL = 'https://example.com/logo.png';
 
-function Harness({ onReady }: { onReady: (api: UseQRCodeDownloadReturn) => void }) {
-  const api = useQRCodeDownload();
-  useEffect(() => {
-    onReady(api);
-  }, []);
+let api: UseQRCodeDownloadReturn;
+
+function Harness() {
+  api = useQRCodeDownload();
   return <QRCode ref={api.ref} value="test" image={IMAGE_URL} errorCorrectionLevel="H" />;
 }
 
 async function getSvgExport() {
-  let api: UseQRCodeDownloadReturn | undefined;
-  render(
-    <Harness
-      onReady={(value) => {
-        api = value;
-      }}
-    />
-  );
-  const dataUrl = await api!.getDataUrl({ format: 'svg' });
+  render(<Harness />);
+  const dataUrl = await api.getDataUrl({ format: 'svg' });
   const svg = decodeURIComponent(escape(atob(dataUrl.split(',')[1])));
   // Read the attribute with a regex: jsdom's XMLSerializer writes xmlns twice, which DOMParser rejects.
   return svg.match(/<image[^>]* href="([^"]*)"/)?.[1];

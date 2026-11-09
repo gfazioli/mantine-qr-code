@@ -39,56 +39,59 @@ async function fetchAsDataUrl(url: string): Promise<string> {
   return blobToDataUrl(await response.blob());
 }
 
+function getMimeType(format: string): string {
+  return format === 'jpeg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : 'image/png';
+}
+
 /**
- * Prepare the overlay images of a cloned SVG for export.
+ * Prepare the overlay image of a cloned SVG for export.
  *
  * A browser renders an SVG loaded as an image (which is how raster formats are produced, and
  * how a data URL is usually displayed) without fetching any external resource, so an image
- * referenced by URL would come out as a broken-image icon. Each one is fetched and embedded as
- * a data URL instead; that needs the image server to allow cross-origin requests (CORS). When
+ * referenced by URL would come out as a broken-image icon. It is fetched and embedded as a
+ * data URL instead, which needs the image server to allow cross-origin requests (CORS). When
  * it cannot be embedded, a raster export leaves the image out, and an SVG export keeps the URL,
  * which still loads when the file is opened on its own.
  *
  * The clip path is copied from the rendered element, resolved: the attribute holds Mantine
  * radius variables that mean nothing outside the page.
  */
-async function prepareImages(
+async function prepareImage(
   svgElement: SVGSVGElement,
   clone: SVGSVGElement,
-  raster: boolean
+  format: string
 ): Promise<void> {
-  const rendered = svgElement.querySelectorAll('image');
-  const cloned = clone.querySelectorAll('image');
+  const rendered = svgElement.querySelector('image');
+  const image = clone.querySelector('image');
+  if (!rendered || !image) {
+    return;
+  }
 
-  await Promise.all(
-    Array.from(cloned, async (image, index) => {
-      const clipPath = getComputedStyle(rendered[index]).clipPath;
-      if (clipPath && clipPath !== 'none') {
-        image.setAttribute('clip-path', clipPath);
-      }
+  const clipPath = getComputedStyle(rendered).clipPath;
+  if (clipPath && clipPath !== 'none') {
+    image.setAttribute('clip-path', clipPath);
+  }
 
-      const href = image.getAttribute('href');
-      if (!href || href.startsWith('data:')) {
-        return;
-      }
-      try {
-        image.setAttribute('href', await fetchAsDataUrl(href));
-      } catch (error) {
-        // The only signal that the export is missing the image, so say why.
-        // eslint-disable-next-line no-console
-        console.warn(
-          `[QRCode] Could not embed the image "${href}" in the export (the server must allow CORS):`,
-          error
-        );
-        if (raster) {
-          image.remove();
-        }
-      }
-    })
-  );
+  const href = image.getAttribute('href');
+  if (!href || href.startsWith('data:')) {
+    return;
+  }
+  try {
+    image.setAttribute('href', await fetchAsDataUrl(href));
+  } catch (error) {
+    // The only signal that the export is missing the image, so say why.
+    // eslint-disable-next-line no-console
+    console.warn(
+      `[QRCode] Could not embed the image "${href}" in the export (the server must allow CORS):`,
+      error
+    );
+    if (format !== 'svg') {
+      image.remove();
+    }
+  }
 }
 
-async function serializeSvg(svgElement: SVGSVGElement, raster: boolean): Promise<string> {
+async function serializeSvg(svgElement: SVGSVGElement, format: string): Promise<string> {
   const serializer = new XMLSerializer();
   const clone = svgElement.cloneNode(true) as SVGSVGElement;
 
@@ -115,7 +118,7 @@ async function serializeSvg(svgElement: SVGSVGElement, raster: boolean): Promise
     }
   });
 
-  await prepareImages(svgElement, clone, raster);
+  await prepareImage(svgElement, clone, format);
 
   return serializer.serializeToString(clone);
 }
@@ -129,7 +132,7 @@ async function svgToCanvas(
   scale: number,
   format: string
 ): Promise<HTMLCanvasElement> {
-  const svgString = await serializeSvg(svgElement, true);
+  const svgString = await serializeSvg(svgElement, format);
   const svgBlob = svgToBlob(svgString);
   const url = URL.createObjectURL(svgBlob);
 
@@ -193,14 +196,12 @@ export function useQRCodeDownload(options: UseQRCodeDownloadOptions = {}): UseQR
       const scale = opts?.scale ?? defaultScale;
 
       if (format === 'svg') {
-        const svgString = await serializeSvg(svgElement, false);
+        const svgString = await serializeSvg(svgElement, format);
         return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgString)))}`;
       }
 
       const canvas = await svgToCanvas(svgElement, scale, format);
-      const mimeType =
-        format === 'jpeg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : 'image/png';
-      return canvas.toDataURL(mimeType, 1.0);
+      return canvas.toDataURL(getMimeType(format), 1.0);
     },
     [defaultFormat, defaultScale]
   );
@@ -218,22 +219,19 @@ export function useQRCodeDownload(options: UseQRCodeDownloadOptions = {}): UseQR
       const fullFileName = `${fileName}.${format}`;
 
       if (format === 'svg') {
-        const svgString = await serializeSvg(svgElement, false);
+        const svgString = await serializeSvg(svgElement, format);
         triggerDownload(svgToBlob(svgString), fullFileName);
         return;
       }
 
       const canvas = await svgToCanvas(svgElement, scale, format);
-      const mimeType =
-        format === 'jpeg' ? 'image/jpeg' : format === 'webp' ? 'image/webp' : 'image/png';
-
       canvas.toBlob(
         (blob) => {
           if (blob) {
             triggerDownload(blob, fullFileName);
           }
         },
-        mimeType,
+        getMimeType(format),
         1.0
       );
     },

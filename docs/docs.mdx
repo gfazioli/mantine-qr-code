@@ -69,6 +69,8 @@ Use the `useQRCodeDownload` hook to download the QR code as SVG, PNG, JPEG or We
 - `download()` takes the same options to override them for one download;
 - `getDataUrl()` returns the image as a data URL instead of downloading it.
 
+An image overlay is fetched and embedded in the export, so its server must allow cross-origin requests (CORS). When it cannot be fetched, PNG, JPEG and WebP leave the image out and SVG keeps its URL. With `background="transparent"`, PNG, WebP and SVG stay transparent, while JPEG, which has no transparency, gets a white background:
+
 <Demo data={demos.download} />
 
 ## Styles API

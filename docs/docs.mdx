@@ -57,9 +57,19 @@ Add a logo or image at the center of the QR code. Use `errorCorrectionLevel="H"`
 
 <Demo data={demos.withImage} />
 
+- `imageSize` (default `0.2`): the image side as a fraction of the QR code, quiet zone excluded. Keep it small enough for the error correction level to recover the modules it hides.
+- `imagePadding` (default `1`): the clearance around the image, in modules. The cleared area spans an odd number of whole modules so it stays centered, so the clearance can differ from `imagePadding` by up to half a module.
+- `imageExcavate` (default `true`): removes the modules behind the image and its padding. Set it to `false` to draw the image over the modules instead.
+
 ## Download
 
-Use the `useQRCodeDownload` hook to download the QR code as SVG or PNG:
+Use the `useQRCodeDownload` hook to download the QR code as SVG, PNG, JPEG or WebP:
+
+- its options set the defaults for every call: `format` (`png`), `fileName` (`qrcode`) and `scale` for raster formats (`4`);
+- `download()` takes the same options to override them for one download;
+- `getDataUrl()` returns the image as a data URL instead of downloading it.
+
+An image overlay is fetched and embedded in the export, so it must come from the same origin or a server that allows cross-origin requests (CORS), or be passed as a data URL. When it cannot be fetched, PNG, JPEG and WebP leave the image out and SVG keeps its URL. With `background="transparent"`, PNG, WebP and SVG stay transparent, while JPEG, which has no transparency, gets a white background:
 
 <Demo data={demos.download} />
 

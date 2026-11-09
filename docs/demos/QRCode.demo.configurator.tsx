@@ -45,7 +45,7 @@ export const configurator: MantineDemo = {
       type: 'size',
       prop: 'radius',
       initialValue: 'sm',
-      libraryValue: 'sm',
+      libraryValue: null,
     },
     {
       type: 'segmented',
@@ -72,7 +72,7 @@ export const configurator: MantineDemo = {
     {
       type: 'select',
       prop: 'errorCorrectionLevel',
-      initialValue: 'M',
+      initialValue: 'H',
       libraryValue: 'M',
       data: [
         { value: 'L', label: 'L (7%)' },
@@ -89,6 +89,37 @@ export const configurator: MantineDemo = {
       min: 0,
       max: 4,
       step: 1,
+    },
+    {
+      type: 'string',
+      prop: 'image',
+      initialValue:
+        'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
+      libraryValue: null,
+    },
+    {
+      type: 'number',
+      prop: 'imageSize',
+      initialValue: 0.2,
+      libraryValue: 0.2,
+      min: 0.1,
+      max: 0.4,
+      step: 0.05,
+    },
+    {
+      type: 'number',
+      prop: 'imagePadding',
+      initialValue: 1,
+      libraryValue: 1,
+      min: 0,
+      max: 4,
+      step: 1,
+    },
+    {
+      type: 'boolean',
+      prop: 'imageExcavate',
+      initialValue: true,
+      libraryValue: true,
     },
   ],
 };

@@ -57,9 +57,15 @@ Add a logo or image at the center of the QR code. Use `errorCorrectionLevel="H"`
 
 <Demo data={demos.withImage} />
 
+- `imageSize` sets the image side as a fraction of the QR code, quiet zone excluded (default `0.2`). The larger the image, the more modules it hides, so keep it small enough for the error correction level to recover them.
+- `imagePadding` sets the clearance around the image, in modules (default `1`). The cleared area always spans a whole, odd number of modules so it stays centered, which makes the clearance the same on all four sides and within half a module of `imagePadding`.
+- `imageExcavate` removes the modules behind the image and its padding (default `true`). Set it to `false` to draw the image over the modules instead.
+
+Try them in the [configurator](#configurator).
+
 ## Download
 
-Use the `useQRCodeDownload` hook to download the QR code as SVG or PNG:
+Use the `useQRCodeDownload` hook to download the QR code as SVG, PNG, JPEG or WebP. It takes the default `format` (`png`), `fileName` (`qrcode`) and `scale` for raster formats (`4`), and each `download()` call can override them. `getDataUrl()` returns the same image as a data URL instead of downloading it:
 
 <Demo data={demos.download} />
 

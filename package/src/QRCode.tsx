@@ -70,7 +70,7 @@ export interface QRCodeBaseProps {
   /** URL of an image/logo to overlay at center */
   image?: string;
 
-  /** Image size relative to QR code (0-1) */
+  /** Image side as a fraction of the QR code side, quiet zone excluded (0-1) */
   imageSize?: number;
 
   /** Border radius of the center image */

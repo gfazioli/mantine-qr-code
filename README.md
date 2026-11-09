@@ -91,6 +91,8 @@ function Demo() {
   size="xl"
   image="https://example.com/logo.png"
   errorCorrectionLevel="H"
+  imageSize={0.25}
+  imagePadding={1}
   imageRadius="md"
 />
 ```
